@@ -35,7 +35,7 @@ class MapVC: UIViewController, UIGestureRecognizerDelegate {
         
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout:
             flowLayout)
-        collectionView?.register(PhotoCell.self, forCellWithReuseIdentifier: "photoCell")
+        collectionView?.register(PhotoCell.self, forCellWithReuseIdentifier: PHOTO_CELL)
         collectionView?.delegate = self
         collectionView?.dataSource = self
         
@@ -89,7 +89,7 @@ class MapVC: UIViewController, UIGestureRecognizerDelegate {
     func addProgressLbl() {
         progressLabel = UILabel()
         progressLabel?.frame = CGRect(x: screenSize.width / 2 - 120, y: 175, width: 240, height: 40)
-        progressLabel?.font = UIFont(name: "Avenir Next", size: 17)
+        progressLabel?.font = UIFont(name: AVENIR_NEXT, size: 17)
         progressLabel?.textColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
         progressLabel?.textAlignment = .center
         collectionView?.addSubview(progressLabel!)
@@ -115,7 +115,7 @@ extension MapVC: MKMapViewDelegate {
         if annotation is MKUserLocation { return nil }
         
         let pinAnnotation = MKPinAnnotationView(annotation: annotation, reuseIdentifier:
-            "droppablePin")
+            DROPPABLE_PIN)
         pinAnnotation.pinTintColor = #colorLiteral(red: 0.9771530032, green: 0.7062081099, blue: 0.1748393774, alpha: 1)
         pinAnnotation.animatesDrop = true
         return pinAnnotation
@@ -141,12 +141,16 @@ extension MapVC: MKMapViewDelegate {
         let touchPoint = sender.location(in: mapView)
         let touchCoordinate = mapView.convert(touchPoint, toCoordinateFrom: mapView)
         
-        let annotation = DroppablePin(coordinate: touchCoordinate, identifier: "droppablePin")
+        let annotation = DroppablePin(coordinate: touchCoordinate, identifier: DROPPABLE_PIN)
         mapView.addAnnotation(annotation)
-        
+                
         let coordinateRegion = MKCoordinateRegionMakeWithDistance(touchCoordinate, regionRadius,
                                                                   regionRadius)
         mapView.setRegion(coordinateRegion, animated: true)
+        
+        FlickrImageService.instance.retrieveUrls(forAnnotation: annotation) { (status) in
+            print(FlickrImageService.instance.imageUrls)
+        }
     }
     
     func removePin() {
@@ -172,8 +176,10 @@ extension MapVC: CLLocationManagerDelegate {
 }
 
 extension MapVC: UICollectionViewDataSource, UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "photoCell", for: indexPath) as? PhotoCell
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath)
+        -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PHOTO_CELL, for:
+            indexPath) as? PhotoCell
         return cell!
     }
     
@@ -181,7 +187,8 @@ extension MapVC: UICollectionViewDataSource, UICollectionViewDelegate {
         return 1
     }
     
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int)
+        -> Int {
         return 4
     }
 }
