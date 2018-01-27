@@ -34,7 +34,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="70"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Double-tap to drop a pin and view photos " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CuV-MT-15o">
-                                        <rect key="frame" x="29.5" y="34.5" width="315" height="21"/>
+                                        <rect key="frame" x="30" y="35" width="315" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="315" id="9Nf-Qy-ZMZ"/>
                                             <constraint firstAttribute="height" constant="21" id="dcN-vK-fvY"/>
@@ -65,6 +65,9 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tdh-Uc-dSY">
                                 <rect key="frame" x="0.0" y="667" width="375" height="0.0"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" id="xN1-hq-jtg"/>
+                                </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -72,12 +75,11 @@
                             <constraint firstAttribute="trailing" secondItem="ZIv-0m-LEM" secondAttribute="trailing" id="4oU-Va-kzf"/>
                             <constraint firstItem="LNc-ss-fEF" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="IP3-7N-7ea"/>
                             <constraint firstItem="Tdh-Uc-dSY" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="KDA-iI-rm6"/>
-                            <constraint firstItem="JKI-5R-DHd" firstAttribute="top" secondItem="Tdh-Uc-dSY" secondAttribute="bottom" id="LIs-gg-gQE"/>
                             <constraint firstItem="PPa-zI-6xs" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="X4J-Cx-0Uu"/>
                             <constraint firstItem="Tdh-Uc-dSY" firstAttribute="top" secondItem="ZIv-0m-LEM" secondAttribute="bottom" id="Ycv-sd-TWH"/>
                             <constraint firstItem="ZIv-0m-LEM" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="Ydl-Tu-IXi"/>
-                            <constraint firstItem="JKI-5R-DHd" firstAttribute="top" secondItem="LNc-ss-fEF" secondAttribute="bottom" constant="20" id="cgD-2J-yGD"/>
-                            <constraint firstItem="JKI-5R-DHd" firstAttribute="top" secondItem="ZIv-0m-LEM" secondAttribute="bottom" id="dHs-dx-Y3j"/>
+                            <constraint firstItem="ZIv-0m-LEM" firstAttribute="bottom" secondItem="LNc-ss-fEF" secondAttribute="bottom" constant="20" id="cgD-2J-yGD"/>
+                            <constraint firstAttribute="bottom" secondItem="Tdh-Uc-dSY" secondAttribute="bottom" id="lHn-hf-4VK"/>
                             <constraint firstAttribute="trailing" secondItem="Tdh-Uc-dSY" secondAttribute="trailing" id="mF3-cO-5N8"/>
                             <constraint firstItem="PPa-zI-6xs" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="oVs-2T-H3t"/>
                             <constraint firstItem="ZIv-0m-LEM" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="oY2-5h-L2p"/>
@@ -86,6 +88,8 @@
                     </view>
                     <connections>
                         <outlet property="mapView" destination="ZIv-0m-LEM" id="GDW-g4-YWH"/>
+                        <outlet property="pullUpVewHeightConstraint" destination="xN1-hq-jtg" id="mvI-8P-Gp1"/>
+                        <outlet property="pullUpView" destination="Tdh-Uc-dSY" id="drL-Pk-kpT"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
