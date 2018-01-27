@@ -65,6 +65,7 @@ class MapVC: UIViewController, UIGestureRecognizerDelegate {
     
     @objc func animateViewDown() {
         FlickrImageService.instance.cancelAllSessions()
+        collectionView?.reloadData()
         pullUpVewHeightConstraint.constant = 0
         UIView.animate(withDuration: 0.3) {
             self.view.layoutIfNeeded()
@@ -157,7 +158,7 @@ extension MapVC: MKMapViewDelegate {
                     if success {
                         self.removeSpinner()
                         self.removeProgressLbl()
-//                        self.collectionView?.reloadData()
+                        self.collectionView?.reloadData()
                     }
                 }, downloadHandler: { (number) in
                     self.progressLabel?.text = "\(number)/\(FlickrImageService.instance.imageUrls.count) IMAGES DOWNLOADED"
@@ -191,9 +192,11 @@ extension MapVC: CLLocationManagerDelegate {
 extension MapVC: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath)
         -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PHOTO_CELL, for:
-            indexPath) as? PhotoCell
-        return cell!
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PHOTO_CELL, for:
+                indexPath) as? PhotoCell else { return UICollectionViewCell() }
+            let imageView = UIImageView(image: FlickrImageService.instance.images[indexPath.row])
+            cell.addSubview(imageView)
+            return cell
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -202,6 +205,6 @@ extension MapVC: UICollectionViewDataSource, UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int)
         -> Int {
-        return 4
+        return FlickrImageService.instance.images.count
     }
 }
