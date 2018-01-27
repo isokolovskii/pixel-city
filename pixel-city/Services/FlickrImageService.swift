@@ -8,6 +8,7 @@
 
 import Foundation
 import Alamofire
+import AlamofireImage
 import SwiftyJSON
 
 class FlickrImageService {
@@ -15,6 +16,7 @@ class FlickrImageService {
     private init() {}
     
     var imageUrls = [String]()
+    var images = [UIImage]()
     
     func retrieveUrls(forAnnotation annotation: DroppablePin, completion: @escaping
         CompletionHandler) {
@@ -36,6 +38,37 @@ class FlickrImageService {
                     debugPrint(response.result.error as Any)
                     completion(false)
                 }
+        }
+    }
+    
+    func retrieveImages(completion: @escaping CompletionHandler, downloadHandler: @escaping
+        (_ numberOfDownloadedImages: Int) -> ()) {
+        images = []
+        
+        for url in imageUrls {
+            Alamofire.request(url).responseImage(completionHandler: { (response) in
+                if response.result.error == nil {
+                    guard let image = response.result.value else { return }
+                    self.images.append(image)
+                    downloadHandler(self.images.count)
+                    if self.images.count == self.imageUrls.count {
+                        completion(true)
+                    }
+                } else {
+                    debugPrint(response.result.error as Any)
+                    completion(false)
+                }
+            })
+        }
+    }
+    
+    func cancelAllSessions() {
+        Alamofire.SessionManager.default.session.getTasksWithCompletionHandler { (sessionDataTask,
+            uploadData, downloadData) in
+            sessionDataTask.forEach { $0.cancel() }
+            downloadData.forEach { $0.cancel() }
+            self.images = []
+            self.imageUrls = []
         }
     }
 }

@@ -38,6 +38,7 @@ class MapVC: UIViewController, UIGestureRecognizerDelegate {
         collectionView?.register(PhotoCell.self, forCellWithReuseIdentifier: PHOTO_CELL)
         collectionView?.delegate = self
         collectionView?.dataSource = self
+        collectionView?.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
         
         pullUpView.addSubview(collectionView!)
     }
@@ -63,6 +64,7 @@ class MapVC: UIViewController, UIGestureRecognizerDelegate {
     }
     
     @objc func animateViewDown() {
+        FlickrImageService.instance.cancelAllSessions()
         pullUpVewHeightConstraint.constant = 0
         UIView.animate(withDuration: 0.3) {
             self.view.layoutIfNeeded()
@@ -89,7 +91,7 @@ class MapVC: UIViewController, UIGestureRecognizerDelegate {
     func addProgressLbl() {
         progressLabel = UILabel()
         progressLabel?.frame = CGRect(x: screenSize.width / 2 - 120, y: 175, width: 240, height: 40)
-        progressLabel?.font = UIFont(name: AVENIR_NEXT, size: 17)
+        progressLabel?.font = UIFont(name: AVENIR_NEXT, size: 15)
         progressLabel?.textColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
         progressLabel?.textAlignment = .center
         collectionView?.addSubview(progressLabel!)
@@ -129,6 +131,7 @@ extension MapVC: MKMapViewDelegate {
     }
     
     @objc func dropPin(_ sender: UITapGestureRecognizer) {
+        FlickrImageService.instance.cancelAllSessions()
         removePin()
         removeSpinner()
         removeProgressLbl()
@@ -148,8 +151,18 @@ extension MapVC: MKMapViewDelegate {
                                                                   regionRadius)
         mapView.setRegion(coordinateRegion, animated: true)
         
-        FlickrImageService.instance.retrieveUrls(forAnnotation: annotation) { (status) in
-            print(FlickrImageService.instance.imageUrls)
+        FlickrImageService.instance.retrieveUrls(forAnnotation: annotation) { (success) in
+            if success {
+                FlickrImageService.instance.retrieveImages(completion: { (success) in
+                    if success {
+                        self.removeSpinner()
+                        self.removeProgressLbl()
+//                        self.collectionView?.reloadData()
+                    }
+                }, downloadHandler: { (number) in
+                    self.progressLabel?.text = "\(number)/\(FlickrImageService.instance.imageUrls.count) IMAGES DOWNLOADED"
+                })
+            }
         }
     }
     
