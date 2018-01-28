@@ -10,11 +10,10 @@ import Foundation
 
 typealias CompletionHandler = (Bool) -> ()
 
-// Annotation identifiers
+// Identifiers
 let DROPPABLE_PIN = "droppablePin"
-
-// Cells identifiers
 let PHOTO_CELL = "photoCell"
+let POP_VC = "popVC"
 
 // Fonts
 let AVENIR_NEXT = "Avenir Next"

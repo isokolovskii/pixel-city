@@ -40,6 +40,8 @@ class MapVC: UIViewController, UIGestureRecognizerDelegate {
         collectionView?.dataSource = self
         collectionView?.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
         
+        registerForPreviewing(with: self, sourceView: collectionView!)
+        
         pullUpView.addSubview(collectionView!)
     }
     
@@ -192,8 +194,9 @@ extension MapVC: CLLocationManagerDelegate {
 extension MapVC: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath)
         -> UICollectionViewCell {
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PHOTO_CELL, for:
-                indexPath) as? PhotoCell else { return UICollectionViewCell() }
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PHOTO_CELL,
+                                                                for: indexPath) as? PhotoCell
+                else { return UICollectionViewCell() }
             let imageView = UIImageView(image: FlickrImageService.instance.images[indexPath.row])
             cell.addSubview(imageView)
             return cell
@@ -209,9 +212,29 @@ extension MapVC: UICollectionViewDataSource, UICollectionViewDelegate {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let popVC = storyboard?.instantiateViewController(withIdentifier: "popVC") as? PopVC
+        guard let popVC = storyboard?.instantiateViewController(withIdentifier: POP_VC) as? PopVC
             else { return }
         popVC.initData(forImage: FlickrImageService.instance.images[indexPath.row])
         present(popVC, animated: true, completion: nil)
+    }
+}
+
+extension MapVC: UIViewControllerPreviewingDelegate {
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing,
+                           viewControllerForLocation location: CGPoint) -> UIViewController? {
+        guard let indexPath = collectionView?.indexPathForItem(at: location), let cell =
+            collectionView?.cellForItem(at: indexPath) else { return nil }
+        
+        guard let popVC = storyboard?.instantiateViewController(withIdentifier: POP_VC) as? PopVC
+            else { return nil }
+        popVC.initData(forImage: FlickrImageService.instance.images[indexPath.row])
+        
+        previewingContext.sourceRect = cell.contentView.frame
+        return popVC
+    }
+    
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit
+        viewControllerToCommit: UIViewController) {
+        show(viewControllerToCommit, sender: self)
     }
 }
