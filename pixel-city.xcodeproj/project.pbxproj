@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2C30D0A9201DC96B005558C5 /* PopVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C30D0A8201DC96B005558C5 /* PopVC.swift */; };
 		2C4E0D5C201C65DE0074776C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4E0D5B201C65DE0074776C /* AppDelegate.swift */; };
 		2C4E0D61201C65DE0074776C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2C4E0D5F201C65DE0074776C /* Main.storyboard */; };
 		2C4E0D63201C65DE0074776C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2C4E0D62201C65DE0074776C /* Assets.xcassets */; };
@@ -21,6 +22,7 @@
 
 /* Begin PBXFileReference section */
 		280E8D629FD980EAE783C915 /* Pods-pixel-city.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pixel-city.debug.xcconfig"; path = "Pods/Target Support Files/Pods-pixel-city/Pods-pixel-city.debug.xcconfig"; sourceTree = "<group>"; };
+		2C30D0A8201DC96B005558C5 /* PopVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopVC.swift; sourceTree = "<group>"; };
 		2C4E0D58201C65DD0074776C /* pixel-city.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "pixel-city.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C4E0D5B201C65DE0074776C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2C4E0D60201C65DE0074776C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -87,6 +89,7 @@
 			isa = PBXGroup;
 			children = (
 				2C4E0D72201C667F0074776C /* MapVC.swift */,
+				2C30D0A8201DC96B005558C5 /* PopVC.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -265,6 +268,7 @@
 			files = (
 				2CC41B23201CD0E300E97C22 /* Constants.swift in Sources */,
 				2C4E0D77201C8D760074776C /* PhotoCell.swift in Sources */,
+				2C30D0A9201DC96B005558C5 /* PopVC.swift in Sources */,
 				2C4E0D73201C667F0074776C /* MapVC.swift in Sources */,
 				2C4E0D75201C7E950074776C /* DroppablePin.swift in Sources */,
 				2CC41B26201CD6F000E97C22 /* FlickrImageService.swift in Sources */,
